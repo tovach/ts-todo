@@ -1,9 +1,5 @@
-import {FC} from 'react';
+import { FC } from 'react';
 
-type TodoProps = {}
+type TodoProps = {};
 
-export const Todo: FC<TodoProps> = () => (
-    <div>
-        Todo
-    </div>
-);
+export const Todo: FC<TodoProps> = () => <div>Todo</div>;

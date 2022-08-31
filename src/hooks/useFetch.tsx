@@ -8,15 +8,14 @@ export const useFetch = <T,>(url: string) => {
   const fetchData = async () => {
     try {
       const response = await fetch(url);
-      if(!response.ok) {
-        throw new Error(`Error - ${response.status.toString()}`)
+      if (!response.ok) {
+        throw new Error(`Error - ${response.status.toString()}`);
       }
 
       const body: T[] = await response.json();
       setData(body);
       setLoading(false);
     } catch (e: any) {
-      console.log(e.message);
       setError(e.message);
     } finally {
       setLoading(false);
