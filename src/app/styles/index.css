@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Other imports */
-@import './fonts.css';
 
 body {
   margin: 0;
