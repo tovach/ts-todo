@@ -11,6 +11,8 @@
       "@components/*": ["./components/*"],
       "@hooks/*": ["./hooks/*"],
       "@types": ["./types"],
+      "@store": ["./store"],
+      "@store/*": ["./store/*"],
       "@utils/*": ["./utils/*"],
       "@pages": ["./pages"],
       "@features/*": ["./features/*"],
