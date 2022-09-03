@@ -1,0 +1,7 @@
+- Redux toolkit
+- Redux thunk
+- Tailwindcss
+- Typescript
+- eslint
+- prettier
+- jsonplaceholder as api
