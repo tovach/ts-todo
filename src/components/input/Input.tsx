@@ -10,5 +10,6 @@ export const Input: FC<InputProps> = ({ name }) => (
     type='text'
     placeholder='Add new item'
     name={name}
+    required
   />
 );
