@@ -1,59 +1,61 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Pagination } from '@components/pagination/Pagination';
 import { TodoList } from '@components/todoList/TodoList';
 import { Todo } from '@types';
 import { BASE_URL } from '@utils/constants';
 import { TodoItem, TodoProps } from '@components/todoItem/TodoItem';
-import { useAppSelector, useActions, useAppDispatch } from '@hooks/redux';
+import { useAppSelector, useThunks } from '@hooks/redux';
+import { Form } from '@components/form/Form';
 
 type HomeProps = {};
 
 export const Home: FC<HomeProps> = () => {
+  const { items, error, loading, totalEntities } = useAppSelector((state) => state.todoSlice);
+  const { fetchTodos, toggleTodoStatus, deleteTodo, addTodo } = useThunks();
   const [page, setPage] = useState(1);
-  const limit = 15;
-  const totalTodos = 200;
-  const totalPages = Math.ceil(totalTodos / limit);
-  const { fetchTodo } = useActions();
-  const data = useAppSelector((state) => state.todo.items);
-  const url = `${BASE_URL}?_page=${page}&_limit=${limit}`;
+  const entitiesLimit = 10;
+  const totalPages = Math.ceil(Number(totalEntities) / entitiesLimit);
+  const url = `${BASE_URL}?_page=${page}&_limit=${entitiesLimit}`;
 
-  useEffect(() => {
-    fetchTodo(url);
-  }, [page]);
+  const paginationHandler = (index: number) => setPage(index);
+  const formHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const { todoTitle } = Object.fromEntries(data.entries());
 
-  const callbacks = {
-    paginationHandler: useCallback((page: number) => {
-      setPage(page);
-    }, []),
-    itemDone: useCallback((id: number) => {
-      console.log(id);
-    }, []),
-    itemUnDone: useCallback(() => {
-      console.log();
-    }, []),
-    itemDelete: useCallback(() => {
-      console.log();
-    }, []),
-    itemEdit: useCallback(() => {
-      console.log();
-    }, [])
+    if (typeof todoTitle === 'string') {
+      const todo: Todo = {
+        title: todoTitle,
+        completed: false,
+        userId: 1,
+        id: Date.now()
+      };
+      addTodo(todo);
+    }
+    e.currentTarget.reset();
   };
 
   const renderItem = (item: Todo): React.ReactElement<TodoProps> => (
-    <TodoItem
-      item={item}
-      onDone={callbacks.itemDone}
-      onUnDone={callbacks.itemUnDone}
-      onDelete={callbacks.itemDelete}
-      onEdit={callbacks.itemEdit}
-    />
+    <TodoItem item={item} onStatusChange={toggleTodoStatus} onDelete={deleteTodo} />
   );
 
+  useEffect(() => {
+    fetchTodos(url);
+  }, [page]);
+
   return (
-    <div className='flex flex-col items-center'>
-      {data ? <TodoList items={data} renderItem={renderItem} /> : <h3>error</h3>}
-      <Pagination totalPages={totalPages} onClick={callbacks.paginationHandler} />
+    <div className='m-auto mt-10 flex w-[640px] flex-col items-center gap-2'>
+      {loading && <h3 className='absolute top-5 text-2xl'>Loading...</h3>}
+      {items.length ? (
+        <>
+          <Form onSubmit={formHandler} />
+          <TodoList items={items} renderItem={renderItem} />
+          <Pagination totalPages={totalPages} onClick={paginationHandler} />
+        </>
+      ) : (
+        <h3 className='absolute top-5 text-2xl'>{error}</h3>
+      )}
     </div>
   );
 };

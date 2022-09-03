@@ -3,12 +3,12 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { App } from '@app';
 import { Provider } from 'react-redux';
-import store from "@store";
+import appStore from '@store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <BrowserRouter>
-    <Provider store={store}>
+    <Provider store={appStore}>
       <App />
     </Provider>
   </BrowserRouter>

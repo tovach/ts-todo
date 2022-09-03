@@ -9,7 +9,7 @@ type TodoListProps = {
 };
 
 export const TodoList: FC<TodoListProps> = ({ items, renderItem }) => (
-  <ul className='flex w-[640px] flex-col gap-2 py-5'>
+  <ul className='flex w-full flex-col gap-2 py-5'>
     {items.map((el) => (
       <li key={el.id}>{renderItem(el)}</li>
     ))}
