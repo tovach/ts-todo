@@ -1,7 +1,8 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@store';
-import { deleteTodo, fetchTodos, toggleTodoStatus, addTodo } from '@store/slices/todoSlice';
+
 import { bindActionCreators } from '@reduxjs/toolkit';
+import { AppDispatch, RootState } from '@store';
+import { addTodo, deleteTodo, fetchTodos, toggleTodoStatus } from '@store/slices/todoSlice';
 
 const thunkActions = {
   fetchTodos,

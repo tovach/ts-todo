@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
+import { ReactComponent as DeleteIcon } from '@assets/img/delete.svg';
 import { ReactComponent as DoneIcon } from '@assets/img/done.svg';
 import { ReactComponent as UnDoneIcon } from '@assets/img/undone.svg';
-import { ReactComponent as DeleteIcon } from '@assets/img/delete.svg';
 import { Button } from '@components/button/Button';
 import { Todo } from '@types';
 

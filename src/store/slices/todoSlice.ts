@@ -1,7 +1,7 @@
 import { AnyAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '@store';
 import { Todo } from '@types';
 import { BASE_URL } from '@utils/constants';
-import { RootState } from '@store';
 
 type TodoSliceState = {
   items: Todo[];
@@ -54,8 +54,7 @@ export const toggleTodoStatus = createAsyncThunk<
       throw new Error(`Error occurred, response status code ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    return arg;
   } catch (e) {
     if (e instanceof Error) {
       return thunkAPI.rejectWithValue(e.message);
@@ -141,6 +140,7 @@ const todoSlice = createSlice({
       })
       .addCase(toggleTodoStatus.fulfilled, (state, action) => {
         state.loading = false;
+        console.log(action.payload);
         const todo = state.items.find((todo) => todo.id === action.payload.id);
         if (todo) {
           todo.completed = !todo.completed;
@@ -157,7 +157,6 @@ const todoSlice = createSlice({
         state.loading = true;
       })
       .addCase(addTodo.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
         state.items.push(action.payload);
       })

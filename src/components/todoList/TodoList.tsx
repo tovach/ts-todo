@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { Todo } from '@types';
 import { TodoProps } from '@components/todoItem/TodoItem';
+import { Todo } from '@types';
 
 type TodoListProps = {
   items: Todo[];
